@@ -32,11 +32,12 @@ a.) sudoku_generator_solver.py -- generate a Sudoku Puzzle and backtracking algo
       --> Reads through every cell of the puzzle and identifies empty cells
       --> Test every number between 1 and 9 (included) and check the guess with created function above
       --> Implement recursion using if/else/return method of python definition function
-          Step 1: Generate an acceptable guess and permanantly write the guess on the puzzle. Thus a new                     puzzle is created with 1 less empty space than its predecessor.
-          Step 2: Re-run solve_sudoku() to solve the "new" puzzle
-          Step 3: If all number between 1 and 9 do not pass the check_guess() function, return to the       
+          Step 1- Generate an acceptable guess and permanantly write the guess on the puzzle. Thus a new                     
+                  puzzle is created with 1 less empty space than its predecessor.
+          Step 2- Re-run solve_sudoku() to solve the "new" puzzle
+          Step 3- If all number between 1 and 9 do not pass the check_guess() function, return to the       
                   previous puzzle and test for another guess
-          Step 4: Run this algorithm on loop until all cells are correctly filled.
+          Step 4- Run this algorithm on loop until all cells are correctly filled.
           
    # Searching for Empty Cells
     for row in range(len(puzzle)):
@@ -59,39 +60,68 @@ a.) sudoku_generator_solver.py -- generate a Sudoku Puzzle and backtracking algo
          
 c.) sudoku_main.py -- Visualizing
    
-   1. def buy()
-      --> Executes created functions in forecast_library.py in the following order:
-      *** def importing_twitdata(id1, id2) 
-      *** def twit_sentiment_analyzer(raw_data)
-      *** For each candidate stock, the bot avoids buying stocks already in position, calculates number of shares to buy
-      *** qty_desired = round(((target_price - current_price) / current_price) * buying_power)
-      *** Checks if the portfolio can afford to make an order
-      *** Store buy history and target prices in a text file.
+   1. Class Sudoku:
+      --> Initialize and establish number of rows, cols, and dimension for pygames
+      --> self.control = original puzzle that is only used for answer comparision and index matching
+      --> self.puzzle = final solution board which the function returns to visualize
+      --> self.practice_sheet = puzzle board where the algorithm tests out guesses
+      *** 3 boards were created in purpose of avoiding errors during pygame visualization
           
-   2. def sell()
-       --> If position has more than -7.5% loss or Unrealized Gain > Target Price, the bot orders an immediate sell order on market price
-       --> Else, the bot pushes stop/limit order: 
-           limit order = newly updated target price  
-           stop limit = -7.5% of purchased price
+   2. def visualize_board() -- pygames
+      --> Visualizing the board, drawing lines, boards, and adjusting details of thickness, window dimension, and colors
+   
+   3. def redraw_cell() -- pygames
+      --> Write a conditionally acceptable guess on an empty cell and on a refreshed window
+      --> Designed to write over incorrect guesses 
 
-    3. if __name__ == '__main__':
-    # Account Status Review
-    alpaca_api = tradeapi.REST(base_url=ALPACA_BASE_URL,
-                        key_id=ALPACA_API_KEY,
-                        secret_key=ALPACA_SECRET_KEY
-                        )
-    # Liquidity
-    buying_power = float(alpaca_api.get_account().buying_power)
+   4. visualize_solving() -- pygames
+      --> Same exact algorithm as solve_sudoku.py
+      --> Refreshes pygame screen when a new guess is made or erased
+      --> Highlights (red) the cell in which the program tests on 
+      --> Delayed the displaying time because the algorithm solves too quickly
+   
+   5. if __name__ == '__main__':
+      --> Press Space to Start Algorithm Visualization
+   
+    # Initialize
+    pygame.init()
+    screen = pygame.display.set_mode((800, 600))
+    pygame.display.set_caption('Sudoku Game')
+    background = pygame.image.load('sudoku_background.png')
+    icon = pygame.image.load('sudoku_icon.png')
+    pygame.display.set_icon(icon)
 
-    # Current Holding Positions
-    open_positions = alpaca_api.list_positions()
-    my_positions = set(map(lambda index: open_positions[index].symbol, range(len(open_positions))))
+    # Run Visualizer
+    my_board = Sudoku(screen)
+    running = True
+    while running:
+        # Title Print
+        screen.fill(WHITE)
+        screen.blit(background, (0, 0))
+        font = pygame.font.SysFont("Papyrus", 35)
+        title_text = font.render(str('Sudoku Backtracking Algorithm Visualizer'), 1, WHITE)
+        screen.blit(title_text, ((70, 20), (500, 20)))
 
-    # Open Orders
-    open_orders = alpaca_api.list_orders(status='open')
-    my_orders = set(map(lambda index: open_orders[index].symbol, range(len(open_orders))))
+        # Instruction Print
+        font = pygame.font.SysFont("comicsans", 18)
+        sub_text = font.render(str('Press SPACE to Solve!'), 1, WHITE)
+        screen.blit(sub_text, ((655, 570), (655, 570)))
 
-    # Executing Sell & Buy Orders
-    sell()
-    buy()
-    sys.exit()
+        # Board Print
+        my_board.visualize_board()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.KEYUP:
+
+                # Press SPACE to Solve Sudoku
+                if event.key == pygame.K_SPACE:
+                    my_board.visualize_solving()
+
+        pygame.display.update()
+
+d.) sudoku_background.png -- legally free background picture downloaded for pygames screen
+e.) sudoku_icon.png -- legally free icon downloaded for pygames screen tab
+      
+      
+      
