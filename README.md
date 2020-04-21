@@ -39,7 +39,7 @@ a.) sudoku_generator_solver.py -- generate a Sudoku Puzzle and backtracking algo
                   previous puzzle and test for another guess
           Step 4- Run this algorithm on loop until all cells are correctly filled.
           
-   # Searching for Empty Cells
+    Searching for Empty Cells
     for row in range(len(puzzle)):
         for column in range(len(puzzle)):
             if puzzle[row][column] == ' ':
