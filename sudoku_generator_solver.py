@@ -1,6 +1,7 @@
 import random
 
 def create_board():
+    # Using Mathematical Sequence to Generate Board
     board = []
     # Create 1 Root Row
     new_row = random.sample(range(1, 10), 9)
