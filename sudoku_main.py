@@ -1,7 +1,7 @@
 from sudoku_generator_solver import *
 import pygame
 
-# RGB Colors
+# RGB Colors Highlighting Cell Being Calculated
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
