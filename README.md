@@ -2,7 +2,7 @@
 Coding project with a unique backtracking algorithm visualizer
 
 Objective: 
-Practicing fundamental python development skills and mathematical implementations.
+Practicing fundamental python development skills, mathematical sequence implementations, and Python GUI.
 
 Mechanics: 
 --> Create sudoku puzzles and avoid brute force methods
